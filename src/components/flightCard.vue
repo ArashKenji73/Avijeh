@@ -56,29 +56,27 @@
             </div>
 
             <!-- line -->
-            <div class="flex flex-1 flex-col items-center">
-              <span
-                class="text-xs text-gray-400"
-                v-if="props.data.flights[0]?.flightsSegmentStops.length! > 0"
-              >
-                {{ props.data.flights[0]?.flightsSegmentStops.length }} توقف
-              </span>
-
-              <div class="relative my-3 w-full border-t border-gray-300">
-                <span
-                  class="absolute -top-2 left-1/2 -translate-x-1/2 bg-white px-2 text-gray-500"
+            <div class="relative my-3 h-0.5 w-1/2 border-t border-gray-300">
+              <div class="-mt-2 flex flex-col items-center">
+                <div
+                  class="flex gap-2"
+                  v-if="props.data.flights[0]?.flightsSegmentStops.length! > 0"
                 >
-                  ✈
-                </span>
+                  <div
+                    class="h-2 w-2 bg-gray-600"
+                    v-for="value in props.data.flights[0]?.flightsSegmentStops
+                      .length"
+                  ></div>
+                </div>
+                <div class="bg-white px-2 text-xs text-gray-400">
+                  {{
+                    formatTimeToPersian(
+                      props.data.flights[0]?.flightsSegments[0]!
+                        .durationTime as string,
+                    )
+                  }}
+                </div>
               </div>
-              <span class="text-xs text-gray-400">
-                {{
-                  formatTimeToPersian(
-                    props.data.flights[0]?.flightsSegments[0]!
-                      .durationTime as string,
-                  )
-                }}</span
-              >
             </div>
 
             <!-- arrival -->
