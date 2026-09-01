@@ -1,18 +1,20 @@
 <template>
   <div class="flex flex-col gap-2 p-4">
-    <h2 class="font-bold">زمان حرکت پرواز</h2>
+    <h2 class="font-bold" @click="open = !open">زمان حرکت پرواز</h2>
 
-    <div v-for="item in matchedFilters" :key="item.id" class="flex gap-2">
-      <input
-        type="checkbox"
-        :id="item.id"
-        :value="item.id"
-        v-model="selectedTime"
-      />
+    <div class="overflow-y-hidden" :class="{ 'h-0': !open }">
+      <div v-for="item in matchedFilters" :key="item.id" class="flex gap-2">
+        <input
+          type="checkbox"
+          :id="item.id"
+          :value="item.id"
+          v-model="selectedTime"
+        />
 
-      <label :for="item.id">
-        {{ item.title }} ({{ item.from }} تا {{ item.to }})
-      </label>
+        <label :for="item.id">
+          {{ item.title }} ({{ item.from }} تا {{ item.to }})
+        </label>
+      </div>
     </div>
   </div>
 </template>
@@ -28,15 +30,14 @@ interface Flight {
 const props = defineProps<{
   flights: Flight[];
 }>();
-
-const emit = defineEmits<{
-  timeRange: [value: string[]];
-}>();
-
+const open = ref<boolean>(true);
 const matchedFilters = getMatchedDepartureTimeFilters(props.flights);
 
 const selectedTime = ref<string[]>([]);
 
+const emit = defineEmits<{
+  timeRange: [value: string[]];
+}>();
 watch(selectedTime, (value) => {
   emit("timeRange", value);
 });
