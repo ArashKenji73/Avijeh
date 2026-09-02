@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col gap-2 p-4">
+  <div class="flex flex-col gap-4 p-4">
     <h2 class="font-bold" @click="open = !open">ایرلاین</h2>
 
-    <div class="overflow-hidden" :class="{ 'h-0': !open }">
+    <div class="flex flex-col gap-4 overflow-hidden" :class="{ 'h-0': !open }">
       <div v-for="item in airlines" :key="item.code" class="flex gap-2">
         <input
           :id="item.code"
