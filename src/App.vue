@@ -8,6 +8,8 @@
         @timeRange="handleTimeFilter"
       />
 
+      <airlinesFilters :flights="result.result.itineraries" />
+
       <!-- {{ filter }} -->
     </aside>
     <main class="flex grow flex-col gap-4">
@@ -39,12 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import { isDepartureTimeInRange } from "@/utils/departureTimeFilters";
+import { isDepartureTimeInRange } from "@/utils/departureTime";
 import { FlightSortType } from "@/types/Flight";
 import { result } from "@/response";
-import departureTimeFilters from "@/components/departureTimeFilters.vue";
-import sortBy from "@/components/sortBy.vue";
+import departureTimeFilters from "@/components/filters/departureTimeFilters.vue";
+import airlinesFilters from "@/components/filters/airlinesFilters.vue";
 import FlightCard from "@/components/flightCard.vue";
+import sortBy from "@/components/sortBy.vue";
 import { computed, ref } from "vue";
 
 const flightsDepartureDateTime = result.result.itineraries.flatMap((item) =>

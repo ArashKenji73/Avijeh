@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { getMatchedDepartureTimeFilters } from "@/utils/departureTimeFilters";
+import { getMatchedDepartureTimeFilters } from "@/utils/departureTime";
 import { ref, watch } from "vue";
 
 interface Flight {
