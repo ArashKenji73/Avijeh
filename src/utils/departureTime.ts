@@ -47,24 +47,33 @@ export function formatTime(time: string) {
 }
 
 export function timeInMinute(time: string) {
-  const [hours, minutes] = formatTime(time).split(':').map(Number)
-  return hours! * 60 + minutes!
+  const formattedTime = time.includes("T") ? formatTime(time) : time;
+
+  const [hours, minutes] = formattedTime.split(":").map(Number);
+
+  return hours! * 60 + minutes!;
 }
+
 export function formatTimeToPersian(time: string) {
-  const [hour, minute] = time.split(":")
-  return `${hour} ساعت و ${minute} دقیقه`
+  const [hour, minute] = time.split(":");
+
+  return `${hour} ساعت و ${minute} دقیقه`;
 }
 
 function isTimeInRange(time: string, range: TimeFilter) {
-  return range.from <= range.to
-    ? time >= range.from && time <= range.to
-    : time >= range.from || time <= range.to;
+  const timeInMinutes = timeInMinute(time);
+  const fromInMinutes = timeInMinute(range.from);
+  const toInMinutes = timeInMinute(range.to);
+
+  return fromInMinutes <= toInMinutes
+    ? timeInMinutes >= fromInMinutes && timeInMinutes <= toInMinutes
+    : timeInMinutes >= fromInMinutes || timeInMinutes <= toInMinutes;
 }
 
 export function getMatchedDepartureTimeFilters(flights: Flight[]) {
   return departureTimeFilters.filter((range) =>
     flights.some((flight) =>
-      isTimeInRange(formatTime(flight.departureDateTime), range),
+      isTimeInRange(flight.departureDateTime, range),
     ),
   );
 }
