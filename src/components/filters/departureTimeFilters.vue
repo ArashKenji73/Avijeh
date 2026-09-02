@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4 p-4">
+  <div class="flex flex-col p-4" :class="open ? 'gap-4' : 'gap-0'">
     <h2 class="font-bold" @click="open = !open">زمان حرکت پرواز</h2>
 
     <div
