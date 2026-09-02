@@ -17,28 +17,36 @@
     </aside>
     <main class="flex grow flex-col gap-4">
       <sortBy @sort="handleSort" />
-      <div class="flex items-center gap-2">
-        <span class="font-semibold">{{ filteredData.length }}</span>
-        <span>پرواز یافت شد</span>
+
+      <div v-if="loading">
+        <FlightLoading />
       </div>
 
-      <div
-        v-for="item in filteredData.slice(
-          0,
-          paginagtion.page * paginagtion.perPage,
-        )"
-        :key="item.id"
-      >
-        <FlightCard :data="item" />
-      </div>
+      <div v-else-if="!loading && filteredData.length === 0">NO DATA</div>
+      <template v-else>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold">{{ filteredData.length }}</span>
+          <span>پرواز یافت شد</span>
+        </div>
 
-      <button
-        class="mx-auto mb-4 w-60 cursor-pointer border border-gray-200 bg-white px-4 py-2 text-sm font-bold shadow-sm"
-        v-if="filteredData.length >= paginagtion.page * paginagtion.perPage"
-        @click="loadMore"
-      >
-        مشاهده نتایج بیشتر
-      </button>
+        <div
+          v-for="item in filteredData.slice(
+            0,
+            paginagtion.page * paginagtion.perPage,
+          )"
+          :key="item.id"
+        >
+          <FlightCard :data="item" />
+        </div>
+
+        <button
+          class="mx-auto mb-4 w-60 cursor-pointer border border-gray-200 bg-white px-4 py-2 text-sm font-bold shadow-sm"
+          v-if="filteredData.length >= paginagtion.page * paginagtion.perPage"
+          @click="loadMore"
+        >
+          مشاهده نتایج بیشتر
+        </button>
+      </template>
     </main>
   </div>
 </template>
@@ -52,7 +60,9 @@ import { result } from "@/response";
 import departureTimeFilters from "@/components/filters/departureTimeFilters.vue";
 import airlinesFilters from "@/components/filters/airlinesFilters.vue";
 import flightNumberFilter from "@/components/filters/flightNumberFilter.vue";
-import FlightCard from "@/components/flightCard.vue";
+import FlightCard from "@/components/flight/card.vue";
+import FlightLoading from "@/components/flight/loading.vue";
+
 import sortBy from "@/components/sortBy.vue";
 import { computed, ref } from "vue";
 
@@ -72,9 +82,15 @@ const handleAirlineFilter = (airlines: string[]) => {
   filter.value.airlines = airlines;
 };
 
+const loading = ref<Boolean>(false);
 const resetFilter = () => {
+  loading.value = true;
   paginagtion.value.page = 1;
   scrollOnTop();
+
+  setTimeout(() => {
+    loading.value = false;
+  }, 1000);
 };
 
 const handleFlightNumber = (flightNumber: string) => {
