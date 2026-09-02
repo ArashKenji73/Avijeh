@@ -3,10 +3,9 @@
     class="relative flex overflow-hidden rounded-xl border border-gray-200 bg-white text-sm shadow-sm"
   >
     <div class="flex grow flex-col p-5">
-      <div class="flex">
+      <!-- <div class="flex">
         <div class="w-52 shrink-0"></div>
         <div class="grow">
-          <!-- badges -->
           <div class="flex gap-2">
             <span class="rounded-lg border px-3 py-1"> Airbus A310 </span>
 
@@ -19,9 +18,9 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="flex grow items-center">
+      <div class="flex grow items-start">
         <div class="w-52 shrink-0">
           <div class="flex items-center gap-3">
             <div
