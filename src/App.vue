@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto flex min-h-screen gap-8">
+  <div class="container mx-auto flex min-h-screen gap-8 pt-8">
     <aside
-      class="sticky top-0 max-h-screen w-1/4 shrink-0 border border-gray-200 bg-white text-sm shadow-sm"
+      class="sticky top-8 max-h-max w-1/4 shrink-0 rounded-xl border border-gray-200 bg-white text-sm shadow-sm"
     >
       <departureTimeFilters
         :flights="flightsDepartureDateTime"
