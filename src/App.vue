@@ -8,7 +8,10 @@
         @timeRange="handleTimeFilter"
       />
 
-      <airlinesFilters :flights="result.result.itineraries" />
+      <airlinesFilters
+        :flights="result.result.itineraries"
+        @airline="handleAirlineFilter"
+      />
 
       <!-- {{ filter }} -->
     </aside>
@@ -41,7 +44,9 @@
 </template>
 
 <script setup lang="ts">
+import type { FlightItem } from "@/types/Flight";
 import { isDepartureTimeInRange } from "@/utils/departureTime";
+import { findAirlinesInFlight } from "@/utils/airlines";
 import { FlightSortType } from "@/types/Flight";
 import { result } from "@/response";
 import departureTimeFilters from "@/components/filters/departureTimeFilters.vue";
@@ -62,12 +67,20 @@ const handleTimeFilter = (timeRange: string[]) => {
   filter.value.timeRange = timeRange;
 };
 
+const handleAirlineFilter = (airlines: string[]) => {
+  paginagtion.value.page = 1;
+  scrollOnTop();
+  filter.value.airlines = airlines;
+};
+
 const filter = ref<{
   timeRange: string[];
   sortBy: FlightSortType;
+  airlines: string[];
 }>({
   timeRange: [],
   sortBy: FlightSortType.BEST_SUGGESTION,
+  airlines: [],
 });
 
 const paginagtion = ref<{
@@ -93,7 +106,7 @@ const scrollOnTop = () => {
 };
 
 const filteredData = computed(() => {
-  let flights = [...result.result.itineraries];
+  let flights: FlightItem[] = [...result.result.itineraries];
 
   flights = flights.filter((item) =>
     isDepartureTimeInRange(
@@ -101,6 +114,8 @@ const filteredData = computed(() => {
       filter.value.timeRange,
     ),
   );
+
+  flights = findAirlinesInFlight(filter.value.airlines, flights);
 
   switch (filter.value.sortBy) {
     case FlightSortType.CHEAPEST:

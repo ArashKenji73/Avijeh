@@ -23,3 +23,20 @@ export function getAirlinesFromFlights(
 
   return airlines
 }
+
+
+export function findAirlinesInFlight(
+  selectedAirlines: string[],
+  flights: FlightItem[],
+) {
+  if (!selectedAirlines.length) {
+    return flights
+  }
+
+  return flights.filter((item) => {
+    const airlineCode =
+      item.flights[0]?.flightsSegments[0]?.airlineCode
+
+    return selectedAirlines.includes(airlineCode as string)
+  })
+}
