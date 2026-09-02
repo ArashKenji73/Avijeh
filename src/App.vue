@@ -33,7 +33,7 @@
       </div>
 
       <button
-        class="mx-auto w-60 cursor-pointer border border-gray-200 bg-white px-4 py-2 text-sm font-bold shadow-sm"
+        class="mx-auto mb-4 w-60 cursor-pointer border border-gray-200 bg-white px-4 py-2 text-sm font-bold shadow-sm"
         v-if="filteredData.length >= paginagtion.page * paginagtion.perPage"
         @click="loadMore"
       >
