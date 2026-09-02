@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import type { FlightItem } from "@/types/Flight";
-import { isDepartureTimeInRange } from "@/utils/departureTime";
+import { isDepartureTimeInRange, timeInMinute } from "@/utils/departureTime";
 import { findAirlinesInFlight } from "@/utils/airlines";
 import { FlightSortType } from "@/types/Flight";
 import { result } from "@/response";
@@ -133,6 +133,18 @@ const filteredData = computed(() => {
           a.flights[0]?.flightsSegments[0]?.duration! -
           b.flights[0]?.flightsSegments[0]?.duration!,
       );
+
+    case FlightSortType.CLOSEST:
+      return flights.sort(
+        (a, b) =>
+          timeInMinute(
+            a.flights[0]?.flightsSegments[0]?.departureDateTime as string,
+          )! -
+          timeInMinute(
+            b.flights[0]?.flightsSegments[0]?.departureDateTime as string,
+          )!,
+      );
+
     default:
       return flights;
   }

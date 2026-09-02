@@ -45,7 +45,12 @@ interface TimeFilter {
 export function formatTime(time: string) {
   return time.split("T")[1]!.slice(0, 5);
 }
-export function formatTimeToPersian(time:string){
+
+export function timeInMinute(time: string) {
+  const [hours, minutes] = formatTime(time).split(':').map(Number)
+  return hours! * 60 + minutes!
+}
+export function formatTimeToPersian(time: string) {
   const [hour, minute] = time.split(":")
   return `${hour} ساعت و ${minute} دقیقه`
 }
