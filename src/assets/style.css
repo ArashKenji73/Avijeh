@@ -1,1 +1,13 @@
+@font-face {
+  font-family: 'iranSans-regular';
+  src: url('../../public/fonts/iranSans-regular.woff');
+}
+
+@font-face {
+  font-family: 'iranSans-bold';
+  src: url('../../public/fonts/iranSans-bold.woff');
+}
+*{
+    font-family: 'iranSans-regular'
+}
 @import "tailwindcss";
