@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto flex min-h-screen gap-8 pt-8">
     <aside
-      class="sticky top-8 max-h-max w-1/4 shrink-0 rounded-xl border border-gray-200 bg-white text-sm shadow-sm"
+      class="sticky top-8 flex max-h-max w-1/4 shrink-0 flex-col gap-8 rounded-xl border border-gray-200 bg-white p-4 text-sm shadow-sm"
     >
       <departureTimeFilters
         :flights="flightsDepartureDateTime"
@@ -13,7 +13,7 @@
         @airline="handleAirlineFilter"
       />
 
-      <!-- {{ filter }} -->
+      <flightNumberFilter @flightNumber="handleFlightNumber" />
     </aside>
     <main class="flex grow flex-col gap-4">
       <sortBy @sort="handleSort" />
@@ -51,6 +51,7 @@ import { FlightSortType } from "@/types/Flight";
 import { result } from "@/response";
 import departureTimeFilters from "@/components/filters/departureTimeFilters.vue";
 import airlinesFilters from "@/components/filters/airlinesFilters.vue";
+import flightNumberFilter from "@/components/filters/flightNumberFilter.vue";
 import FlightCard from "@/components/flightCard.vue";
 import sortBy from "@/components/sortBy.vue";
 import { computed, ref } from "vue";
@@ -62,25 +63,35 @@ const flightsDepartureDateTime = result.result.itineraries.flatMap((item) =>
 );
 
 const handleTimeFilter = (timeRange: string[]) => {
-  paginagtion.value.page = 1;
-  scrollOnTop();
+  resetFilter();
   filter.value.timeRange = timeRange;
 };
 
 const handleAirlineFilter = (airlines: string[]) => {
+  resetFilter();
+  filter.value.airlines = airlines;
+};
+
+const resetFilter = () => {
   paginagtion.value.page = 1;
   scrollOnTop();
-  filter.value.airlines = airlines;
+};
+
+const handleFlightNumber = (flightNumber: string) => {
+  resetFilter();
+  filter.value.flightNumber = flightNumber;
 };
 
 const filter = ref<{
   timeRange: string[];
   sortBy: FlightSortType;
   airlines: string[];
+  flightNumber: string;
 }>({
   timeRange: [],
   sortBy: FlightSortType.BEST_SUGGESTION,
   airlines: [],
+  flightNumber: "",
 });
 
 const paginagtion = ref<{
@@ -108,6 +119,15 @@ const scrollOnTop = () => {
 const filteredData = computed(() => {
   let flights: FlightItem[] = [...result.result.itineraries];
 
+  if (filter.value.flightNumber.length) {
+    flights = flights.filter((flight) =>
+      flight.flights[0]?.flightsSegments[0]?.flightNumber.includes(
+        filter.value.flightNumber,
+      ),
+    );
+  } else {
+    return flights;
+  }
   flights = flights.filter((item) =>
     isDepartureTimeInRange(
       item.flights[0]!.departureDateTime,
