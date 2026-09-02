@@ -109,7 +109,12 @@ const filteredData = computed(() => {
       return flights.sort(
         (a, b) => b.totalPrice.parsedValue - a.totalPrice.parsedValue,
       );
-
+    case FlightSortType.FASTEST:
+      return flights.sort(
+        (a, b) =>
+          a.flights[0]?.flightsSegments[0]?.duration! -
+          b.flights[0]?.flightsSegments[0]?.duration!,
+      );
     default:
       return flights;
   }
