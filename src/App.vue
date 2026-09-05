@@ -183,7 +183,7 @@ const filteredData = computed(() => {
   }
 });
 
-watch(filter, (value) => {
+watch(filter, () => {
   showLoading();
 });
 </script>
