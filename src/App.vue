@@ -54,7 +54,10 @@
 <script setup lang="ts">
 import type { Itinerary } from "@/types/Flight";
 import { isDepartureTimeInRange, timeInMinute } from "@/utils/departureTime";
-import { findAirlinesInFlight } from "@/utils/airlines";
+import {
+  findAirlinesInFlight,
+  findFlightNumberInFlight,
+} from "@/utils/airlines";
 import { FlightSortType } from "@/types/Flight";
 import { result } from "@/response";
 import departureTimeFilters from "@/components/filters/departureTimeFilters.vue";
@@ -144,13 +147,7 @@ const filteredData = computed(() => {
 
   flights = findAirlinesInFlight(filter.value.airlines, flights);
 
-  if (filter.value.flightNumber.length) {
-    flights = flights.filter((flight) =>
-      flight.flights[0]?.flightsSegments[0]?.flightNumber.includes(
-        filter.value.flightNumber,
-      ),
-    );
-  }
+  flights = findFlightNumberInFlight(filter.value.flightNumber, flights);
 
   switch (filter.value.sortBy) {
     case FlightSortType.CHEAPEST:

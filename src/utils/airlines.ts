@@ -40,3 +40,19 @@ export function findAirlinesInFlight(
     return selectedAirlines.includes(airlineCode as string)
   })
 }
+
+
+
+export function findFlightNumberInFlight(flightNumber: string, flights: Itinerary[]) {
+  if (flightNumber) {
+    flights = flights.filter((flight) =>
+      flight.flights[0]?.flightsSegments[0]?.flightNumber.includes(
+        flightNumber,
+      ),
+    );
+  } else {
+    flights = flights
+  }
+
+  return flights
+}
