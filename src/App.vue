@@ -150,8 +150,6 @@ const filteredData = computed(() => {
         filter.value.flightNumber,
       ),
     );
-  } else {
-    return flights;
   }
 
   switch (filter.value.sortBy) {
