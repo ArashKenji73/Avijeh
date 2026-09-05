@@ -42,13 +42,14 @@ export function findAirlinesInFlights(
 }
 
 export function findTimeRangesInFlights(timeRange: string[], flights: Itinerary[]) {
-  flights.filter((item) =>
+  if (!timeRange.length) return flights;
+
+  return flights.filter((item) =>
     isDepartureTimeInRange(
-      item.flights[0]!.departureDateTime,
+      item.flights[0]?.departureDateTime ?? "",
       timeRange,
     ),
   );
-  return flights
 }
 
 export function findFlightNumberInFlights(flightNumber: string, flights: Itinerary[]) {
