@@ -21,11 +21,11 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import type { FlightItem } from "@/types/Flight";
+import type { Itinerary } from "@/types/Flight";
 import { getAirlinesFromFlights } from "@/utils/airlines";
 
 const props = defineProps<{
-  flights: FlightItem[];
+  flights: Itinerary[];
 }>();
 
 const airlines = getAirlinesFromFlights(props.flights);

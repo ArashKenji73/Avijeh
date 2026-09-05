@@ -126,9 +126,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { FlightItem } from "@/types/Flight";
+import type { Itinerary } from "@/types/Flight";
 import { formatTime, formatTimeToPersian } from "@/utils/departureTime";
 const props = defineProps<{
-  data: FlightItem;
+  data: Itinerary;
 }>();
 </script>

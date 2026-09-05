@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FlightItem } from "@/types/Flight";
+import type { Itinerary } from "@/types/Flight";
 import { isDepartureTimeInRange, timeInMinute } from "@/utils/departureTime";
 import { findAirlinesInFlight } from "@/utils/airlines";
 import { FlightSortType } from "@/types/Flight";
@@ -133,7 +133,16 @@ const scrollOnTop = () => {
 };
 
 const filteredData = computed(() => {
-  let flights: FlightItem[] = [...result.result.itineraries];
+  let flights: Itinerary[] = [...result.result.itineraries];
+
+  flights = flights.filter((item) =>
+    isDepartureTimeInRange(
+      item.flights[0]!.departureDateTime,
+      filter.value.timeRange,
+    ),
+  );
+
+  flights = findAirlinesInFlight(filter.value.airlines, flights);
 
   if (filter.value.flightNumber.length) {
     flights = flights.filter((flight) =>
@@ -144,14 +153,6 @@ const filteredData = computed(() => {
   } else {
     return flights;
   }
-  flights = flights.filter((item) =>
-    isDepartureTimeInRange(
-      item.flights[0]!.departureDateTime,
-      filter.value.timeRange,
-    ),
-  );
-
-  flights = findAirlinesInFlight(filter.value.airlines, flights);
 
   switch (filter.value.sortBy) {
     case FlightSortType.CHEAPEST:

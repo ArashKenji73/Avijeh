@@ -1,4 +1,4 @@
-import type { FlightItem } from '@/types/Flight'
+import type { Itinerary } from '@/types/Flight'
 
 interface Airline {
   code: string | undefined
@@ -6,7 +6,7 @@ interface Airline {
 }
 
 export function getAirlinesFromFlights(
-  flightsItem: FlightItem[],
+  flightsItem: Itinerary[],
 ): Airline[] {
   const airlines: Airline[] = []
 
@@ -27,7 +27,7 @@ export function getAirlinesFromFlights(
 
 export function findAirlinesInFlight(
   selectedAirlines: string[],
-  flights: FlightItem[],
+  flights: Itinerary[],
 ) {
   if (!selectedAirlines.length) {
     return flights
