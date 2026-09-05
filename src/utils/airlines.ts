@@ -25,7 +25,7 @@ export function getAirlinesFromFlights(
 }
 
 
-export function findAirlinesInFlight(
+export function findAirlinesInFlights(
   selectedAirlines: string[],
   flights: Itinerary[],
 ) {
@@ -41,7 +41,7 @@ export function findAirlinesInFlight(
   })
 }
 
-export function findFilightsInTimeRange(timeRange: string[], flights: Itinerary[]) {
+export function findTimeRangesInFlights(timeRange: string[], flights: Itinerary[]) {
   flights.filter((item) =>
     isDepartureTimeInRange(
       item.flights[0]!.departureDateTime,
@@ -51,7 +51,7 @@ export function findFilightsInTimeRange(timeRange: string[], flights: Itinerary[
   return flights
 }
 
-export function findFlightNumberInFlight(flightNumber: string, flights: Itinerary[]) {
+export function findFlightNumberInFlights(flightNumber: string, flights: Itinerary[]) {
   if (flightNumber) {
     flights = flights.filter((flight) =>
       flight.flights[0]?.flightsSegments[0]?.flightNumber.includes(

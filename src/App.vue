@@ -55,9 +55,9 @@
 import type { Itinerary } from "@/types/Flight";
 import { isDepartureTimeInRange, timeInMinute } from "@/utils/departureTime";
 import {
-  findAirlinesInFlight,
-  findFlightNumberInFlight,
-  findFilightsInTimeRange,
+  findTimeRangesInFlights,
+  findAirlinesInFlights,
+  findFlightNumberInFlights,
 } from "@/utils/airlines";
 import { FlightSortType } from "@/types/Flight";
 import { result } from "@/response";
@@ -143,11 +143,11 @@ const scrollOnTop = () => {
 const filteredData = computed(() => {
   let flights: Itinerary[] = [...result.result.itineraries];
 
-  flights = findFilightsInTimeRange(filter.value.timeRange, flights);
+  flights = findTimeRangesInFlights(filter.value.timeRange, flights);
 
-  flights = findAirlinesInFlight(filter.value.airlines, flights);
+  flights = findAirlinesInFlights(filter.value.airlines, flights);
 
-  flights = findFlightNumberInFlight(filter.value.flightNumber, flights);
+  flights = findFlightNumberInFlights(filter.value.flightNumber, flights);
 
   switch (filter.value.sortBy) {
     case FlightSortType.CHEAPEST:
