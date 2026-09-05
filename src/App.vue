@@ -57,6 +57,7 @@ import { isDepartureTimeInRange, timeInMinute } from "@/utils/departureTime";
 import {
   findAirlinesInFlight,
   findFlightNumberInFlight,
+  findFilightsInTimeRange,
 } from "@/utils/airlines";
 import { FlightSortType } from "@/types/Flight";
 import { result } from "@/response";
@@ -142,12 +143,7 @@ const scrollOnTop = () => {
 const filteredData = computed(() => {
   let flights: Itinerary[] = [...result.result.itineraries];
 
-  flights = flights.filter((item) =>
-    isDepartureTimeInRange(
-      item.flights[0]!.departureDateTime,
-      filter.value.timeRange,
-    ),
-  );
+  flights = findFilightsInTimeRange(filter.value.timeRange, flights);
 
   flights = findAirlinesInFlight(filter.value.airlines, flights);
 

@@ -1,5 +1,5 @@
 import type { Itinerary } from '@/types/Flight'
-
+import { isDepartureTimeInRange } from '@/utils/departureTime'
 interface Airline {
   code: string | undefined
   title: string | undefined
@@ -41,7 +41,15 @@ export function findAirlinesInFlight(
   })
 }
 
-
+export function findFilightsInTimeRange(timeRange: string[], flights: Itinerary[]) {
+  flights.filter((item) =>
+    isDepartureTimeInRange(
+      item.flights[0]!.departureDateTime,
+      timeRange,
+    ),
+  );
+  return flights
+}
 
 export function findFlightNumberInFlight(flightNumber: string, flights: Itinerary[]) {
   if (flightNumber) {
