@@ -67,7 +67,7 @@ import FlightCard from "@/components/flight/card.vue";
 import FlightLoading from "@/components/flight/loading.vue";
 
 import sortBy from "@/components/sortBy.vue";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 const flightsDepartureDateTime = result.result.itineraries.flatMap((item) =>
   item.flights.map((flight) => ({
@@ -87,10 +87,13 @@ const handleAirlineFilter = (airlines: string[]) => {
 
 const loading = ref<Boolean>(false);
 const resetFilter = () => {
-  loading.value = true;
+  showLoading();
   paginagtion.value.page = 1;
   scrollOnTop();
+};
 
+const showLoading = () => {
+  loading.value = true;
   setTimeout(() => {
     loading.value = false;
   }, 1000);
@@ -126,6 +129,7 @@ const loadMore = () => {
 };
 const handleSort = (sort: FlightSortType) => {
   filter.value.sortBy = sort;
+  showLoading();
 };
 
 const scrollOnTop = () => {
@@ -154,7 +158,6 @@ const filteredData = computed(() => {
       return flights.sort(
         (a, b) => a.totalPrice.parsedValue - b.totalPrice.parsedValue,
       );
-
     case FlightSortType.MOST_EXPENSIVE:
       return flights.sort(
         (a, b) => b.totalPrice.parsedValue - a.totalPrice.parsedValue,
@@ -165,7 +168,6 @@ const filteredData = computed(() => {
           a.flights[0]?.flightsSegments[0]?.duration! -
           b.flights[0]?.flightsSegments[0]?.duration!,
       );
-
     case FlightSortType.CLOSEST:
       return flights.sort(
         (a, b) =>
@@ -176,10 +178,13 @@ const filteredData = computed(() => {
             b.flights[0]?.flightsSegments[0]?.departureDateTime as string,
           )!,
       );
-
     default:
       return flights;
   }
+});
+
+watch(filter, (value) => {
+  showLoading();
 });
 </script>
 
